@@ -37,10 +37,7 @@ class RouteServiceProvider extends ServiceProvider
     public function map()
     {
         $this->mapApiRoutes();
-
         $this->mapWebRoutes();
-
-        Passport::routes();
     }
 
     /**
@@ -67,7 +64,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         Route::prefix('api')
-             ->middleware('auth:api')
+             //->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
     }
