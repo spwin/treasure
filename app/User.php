@@ -27,4 +27,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getCoordinates(){
+        return $this->hasOne('App\Coordinates', 'id', 'coordinates_id');
+    }
+
+    public function getFoundPoints(){
+        return $this->hasMany('App\Points', 'user_id', 'id');
+    }
 }
