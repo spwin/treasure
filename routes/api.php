@@ -26,3 +26,6 @@ Route::group(['prefix' => 'v1'], function() {
 
     Route::post('/register', 'ApiLoginController@register');
 });
+
+
+// Ale is good
