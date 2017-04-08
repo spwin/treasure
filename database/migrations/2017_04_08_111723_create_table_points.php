@@ -17,12 +17,12 @@ class CreateTablePoints extends Migration
             $table->increments('id');
             $table->integer('coordinates_id')->nullable()->unsigned();
             $table->foreign('coordinates_id')->references('id')->on('coordinates');
-            $table->integer('status');
+            $table->integer('status')->default(0);
             $table->integer('user_id')->nullable()->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('reward_id')->nullable()->unsigned();
             $table->foreign('reward_id')->references('id')->on('rewards');
-            $table->boolean('paid');
+            $table->boolean('paid')->default(0);
             $table->timestamps();
         });
     }

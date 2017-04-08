@@ -14,8 +14,8 @@ class UpdateTableUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('premium');
-            $table->integer('crystals');
+            $table->boolean('premium')->default(0);
+            $table->integer('crystals')->default(0);
             $table->integer('coordinates_id')->nullable()->unsigned();
             $table->foreign('coordinates_id')->references('id')->on('coordinates');
         });
