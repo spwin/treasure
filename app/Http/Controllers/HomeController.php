@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Show the application dashboard.
      *
@@ -21,5 +16,9 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function test(){
+        return json_encode(['response' => 'ok']);
     }
 }

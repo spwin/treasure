@@ -20,6 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+Route::get('/test', 'HomeController@test');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/points', 'PointsController@index');
