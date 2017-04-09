@@ -19,6 +19,6 @@ class HomeController extends Controller
     }
 
     public function test(){
-        return json_encode(['response' => 'ok']);
+        return '[{"id":30708,"title":"Reikalingas Automehanikas","url":"reikalingas-automehanikas","highlight":0,"stars":1,"price":"500.00","images":[]}]';
     }
 }
