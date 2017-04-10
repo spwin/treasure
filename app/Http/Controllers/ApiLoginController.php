@@ -111,10 +111,10 @@ class ApiLoginController extends Controller
             'grant_type'    => $grantType
         ]);
 
-        $http = new Client();
+        $http = new Client(['http_errors' => false]);
 
         try {
-            $response = $http->request('POST', 'http://treasure.dev/oauth/token', [
+            $response = $http->request('POST', 'http://treasureradar.com/oauth/token', [
                 'form_params' => $data,
             ]);
 
