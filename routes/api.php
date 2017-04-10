@@ -21,7 +21,7 @@ Route::group(['prefix' => 'v1'], function() {
 
         Route::post('/logout', 'ApiLoginController@logout');
     });
-    Route::post('/points/get', 'ApiPointsController@getPoints');
+    Route::get('/points/get', 'ApiPointsController@getPoints');
 
     Route::post('/login', 'ApiLoginController@login');
     Route::post('/login/refresh', 'ApiLoginController@refresh');
