@@ -31,4 +31,12 @@ class ApiPointsController extends Controller
 
         return response()->json($return);
     }
+
+    public function removePoint(Request $request){
+        $id = $request->get('id');
+        $point = Points::find($id);
+        $point->delete();
+
+        return $this->getPoints($request);
+    }
 }
