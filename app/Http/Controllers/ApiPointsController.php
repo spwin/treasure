@@ -15,6 +15,7 @@ class ApiPointsController extends Controller
         $data = array();
         foreach($points as $point){
             $data[] = [
+                'id' => $point->id,
                 'lat' => $point->getCoordinates->lat,
                 'lon' => $point->getCoordinates->lon
             ];
