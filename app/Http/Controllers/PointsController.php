@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Coordinates;
 use App\Points;
+use App\Rewards;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 class PointsController extends Controller
 {
     public function index(){
-        $points = Points::with('getCoordinates')->get();
+        $points = Points::with('getCoordinates')->orderBy('id', 'DESC')->get();
         return view('point.list')->with([
             'points' => $points
         ]);
@@ -44,6 +45,25 @@ class PointsController extends Controller
                     'status' => 0,
                     'paid' => $paid[$i]
                 ]);
+
+                if($request->get('reward') && $request->get('rewardType') && $request->get('rewardAmount')){
+                    $reward = $request->get('reward');
+                    $rewardType = $request->get('rewardType');
+                    $rewardAmount = $request->get('rewardAmount');
+
+                    if($reward[$i]) {
+                        $newReward = new Rewards();
+                        $newReward->fill([
+                            'type' => $rewardType[$i],
+                            'amount' => $rewardAmount[$i] ? $rewardAmount[$i] : 0
+                        ]);
+                        $newReward->save();
+                        $point->fill([
+                            'reward_id' => $newReward->id
+                        ]);
+                    }
+                }
+
                 $point->save();
             }
             Session::flash('flash_notification.general.message', 'New Point was created successfully!');

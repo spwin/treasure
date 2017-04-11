@@ -31,6 +31,7 @@
                             <th>Latitude</th>
                             <th>Longitude</th>
                             <th>Paid</th>
+                            <th>Reward</th>
                         </tr>
                     @foreach($points as $point)
                         <tr>
@@ -38,6 +39,7 @@
                             <td>{{ $point->getCoordinates->lat }}</td>
                             <td>{{ $point->getCoordinates->lon }}</td>
                             <td>{{ $point->paid ? 'Paid' : 'Free' }}</td>
+                            <td>{!! $point->getReward ? '£'.$point->getReward->amount : '-' !!}</td>
                         </tr>
                     @endforeach
                     </table>

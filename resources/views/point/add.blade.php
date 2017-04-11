@@ -40,7 +40,8 @@
                             <tr>
                                 <th>Latitude</th>
                                 <th>Longitude</th>
-                                <th>Paid</th>
+                                <th>Premium</th>
+                                <th>Reward</th>
                                 <th>Action</th>
                             </tr>
                         </table>
@@ -49,6 +50,11 @@
                                 <td>{!! Form::input('number', 'new_lat', null, ['class' => 'form-control', 'placeholder' => 'Latitude', 'step' => '0.000001']) !!}</td>
                                 <td>{!! Form::input('number', 'new_lng', null, ['class' => 'form-control', 'placeholder' => 'Longitude', 'step' => '0.000001']) !!}</td>
                                 <td>{!! Form::checkbox('new_paid', 1, null) !!}</td>
+                                <td>
+                                    {!! Form::checkbox('new_reward', 1, null) !!}
+                                    {!! Form::select('new_reward_typed', ['money' => 'Money'], null, ['class' => 'field']) !!}
+                                    {!! Form::input('number', 'new_reward_amount', null, ['class' => 'form-control', 'placeholder' => 'Amount', 'step' => '0.01']) !!}
+                                </td>
                                 <td><button type="submit" class="btn btn-success btn-xl marker-add">Add Point</button></td>
                             </tr>
                         </table>
@@ -86,9 +92,14 @@
         var form = $(this);
         markersTable.find('tr').each(function(){
             var checked = $(this).find('.marker-paid').is(':checked') ? '1' : '0';
+            var reward = $(this).find('.marker-reward-enabled').is(':checked') ? '1' : '0';
+            console.log(reward);
             form.append('<input type="hidden" name="lat[]" value="'+$(this).find('.marker-lat').html()+'">')
                     .append('<input type="hidden" name="lng[]" value="'+$(this).find('.marker-lng').html()+'">')
-                    .append('<input type="hidden" name="paid[]" value="'+checked+'">');
+                    .append('<input type="hidden" name="paid[]" value="'+checked+'">')
+                    .append('<input type="hidden" name="reward[]" value="'+reward+'">')
+                    .append('<input type="hidden" name="rewardType[]" value="'+$(this).find('.marker-reward-type').val()+'">')
+                    .append('<input type="hidden" name="rewardAmount[]" value="'+$(this).find('.marker-reward-amount').val()+'">');
         });
     });
 
@@ -112,9 +123,18 @@
             var lng = $('input[name="new_lng"]');
             var latLng = new google.maps.LatLng(lat.val(), lng.val());
             var paid = $('input[name="new_paid"]');
+            var rewardEnabled = $('input[name="new_reward"]');
+            var rewardType = $('input[name="new_reward_type"]');
+            var rewardAmount = $('input[name="new_reward_amount"]');
 
-            placeMarker(latLng, paid.is(':checked'));
-            lat.val(''); lng.val(''); paid.prop('checked', false);
+            placeMarker(latLng, paid.is(':checked'), rewardEnabled.is(':checked'), rewardType.val(), rewardAmount.val());
+
+            lat.val('');
+            lng.val('');
+            paid.prop('checked', false);
+            rewardEnabled.prop('checked', false);
+            rewardType.val('money').change();
+            rewardAmount.val('');
         }
 
         function markGray(elementHtml){
@@ -122,8 +142,11 @@
             elementHtml.addClass('background-gray');
         }
 
-        function placeMarker(location, paid) {
+        function placeMarker(location, paid, rewardEnabled, rewardType, rewardAmount) {
             paid = typeof paid !== 'undefined' ? paid : false;
+            rewardEnabled = typeof rewardEnabled !== 'undefined' ? rewardEnabled : false;
+            rewardType = typeof rewardType !== 'undefined' ? rewardType : 'money';
+            rewardAmount = typeof rewardAmount !== 'undefined' ? rewardAmount : '0';
 
             var marker = new google.maps.Marker({
                 position: location,
@@ -134,11 +157,22 @@
                     .append(($('<td>').addClass('marker-lat')).append(parseFloat(location.lat()).toFixed(6)))
                     .append(($('<td>').addClass('marker-lng')).append(parseFloat(location.lng()).toFixed(6)))
                     .append(($('<td>').addClass('marker-paid')).append('<input type="checkbox" class="marker-paid">'))
+                    .append(($('<td>').addClass('marker-reward'))
+                            .append('<input type="checkbox" class="marker-reward-enabled">')
+                            .append(($('<select>').addClass('marker-reward-type')).append($('<option>').val('money').html('Money')))
+                            .append('<input type="number" class="form-control marker-reward-amount" placeholder="Amount">')
+                    )
                     .append($('<td>').append(($('<button>').addClass("btn btn-danger")).append("Remove")));
 
             if(paid){
                 marker.setLabel("$");
-                elementHtml.find('input').prop('checked', true);
+                elementHtml.find('input.marker-paid').prop('checked', true);
+            }
+
+            if(rewardEnabled){
+                elementHtml.find('input.marker-reward-enabled').prop('checked', true);
+                elementHtml.find('input.marker-reward-type').val(rewardType).change();
+                elementHtml.find('input.marker-reward-amount').val(rewardAmount);
             }
 
             markersTable.prepend(elementHtml);
@@ -156,7 +190,7 @@
                 elementHtml.remove();
             });
 
-            elementHtml.find('input').on("change", function(){
+            elementHtml.find('input.marker-paid').on("change", function(){
                 if($(this).is(':checked')){
                     marker.setLabel("$");
                 } else {
@@ -169,7 +203,7 @@
                 markGray(elementHtml);
             });
 
-            elementHtml.find('input, button').on("click", function(e){
+            elementHtml.find('input, button, select').on("click", function(e){
                 e.stopPropagation();
             });
 

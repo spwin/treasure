@@ -28,6 +28,10 @@ class UpdateTableUsers extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('premium', 'crystals');
+            $table->dropForeign(['coordinates_id']);
+            $table->dropColumn('coordinates_id');
+        });
     }
 }
