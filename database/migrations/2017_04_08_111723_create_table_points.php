@@ -16,7 +16,7 @@ class CreateTablePoints extends Migration
         Schema::create('points', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('coordinates_id')->nullable()->unsigned();
-            $table->foreign('coordinates_id')->references('id')->on('coordinates');
+            $table->foreign('coordinates_id')->references('id')->on('coordinates')->onDelete('cascade');
             $table->integer('status')->default(0);
             $table->integer('user_id')->nullable()->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
