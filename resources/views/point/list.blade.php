@@ -52,6 +52,7 @@
 @push('scripts')
 <script>
     var map;
+    var markers = [];
 
     function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -79,8 +80,16 @@
             if(paid){
                 marker.setLabel("$");
             }
+
+            markers.push(marker);
         }
+
+        var markerCluster = new MarkerClusterer(map, markers,
+                {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+
     }
+</script>
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
 </script>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAP_API_KEY') }}&callback=initMap">
