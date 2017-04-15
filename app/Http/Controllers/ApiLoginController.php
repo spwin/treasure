@@ -28,8 +28,8 @@ class ApiLoginController extends Controller
     }
 
     public function refresh(Request $request){
-        $refreshToken = $request->cookie(self::REFRESH_TOKEN);
-        //$refreshToken = $request->get('refresh_token');
+        //$refreshToken = $request->cookie(self::REFRESH_TOKEN);
+        $refreshToken = $request->get('refresh_token');
         //return json_encode(['token' => $refreshToken]);
         return $this->proxy('refresh_token', [
             'refresh_token' => $refreshToken
