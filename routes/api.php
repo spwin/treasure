@@ -18,11 +18,12 @@ Route::group(['prefix' => 'v1'], function() {
             return $request->user();
         });
 
+        Route::get('/points/remove', 'ApiPointsController@removePoint');
+
         Route::get('/points/get', 'ApiPointsController@getPoints');
         Route::post('/logout', 'ApiLoginController@logout');
     });
 
-    Route::get('/points/remove', 'ApiPointsController@removePoint');
 
     Route::post('/login', 'ApiLoginController@login');
     Route::post('/login/refresh', 'ApiLoginController@refresh');

@@ -50,13 +50,16 @@ class ApiPointsController extends Controller
     }
 
     public function removePoint(Request $request){
-        if($user = Auth::guard('api')->user()){
+        if($user = $request->user()){
+            echo 'jest';
             $id = $request->get('id');
             $point = Points::find($id);
             $point->user_id = $user->id;
             $point->save();
+        } else {
+            echo 'niema';
         }
-
+        die();
         return $this->getPoints($request);
     }
 }
