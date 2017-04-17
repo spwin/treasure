@@ -54,6 +54,7 @@ class ApiPointsController extends Controller
         $point = Points::find($id);
         if($user = $request->user()){
             $point->user_id = $user->id;
+            $point->status = 1;
             $point->save();
         } else {
             $point->delete();
