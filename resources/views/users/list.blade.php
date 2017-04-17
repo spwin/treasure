@@ -25,6 +25,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Point found</th>
                             <th>Crystals</th>
                             <th>Email</th>
                             <th>IP</th>
@@ -36,6 +37,7 @@
                         <tr>
                             <td>{{ $user->id }}</td>
                             <td>{{ $user->name }}</td>
+                            <td>{{ $user->getFoundPoints()->count() }}</td>
                             <td>{{ $user->crystals}}</td>
                             <td>{{ $user->email}}</td>
                             <td>{{ $user->ip }}</td>
