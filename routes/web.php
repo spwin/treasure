@@ -27,4 +27,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/points/add', 'PointsController@add');
     Route::post('/points/save', 'PointsController@save');
     Route::get('/points/delete', 'PointsController@delete');
+
+    Route::get('/users', 'UsersController@index');
 });

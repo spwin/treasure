@@ -22,7 +22,7 @@ class ApiLoginController extends Controller
         $email = $request->get('email');
         $password = $request->get('password');
 
-        $attempt = $this->attemptLogin($email, $password);
+        $attempt = $this->attemptLogin($email, $password, $request);
 
         return $attempt;
     }
@@ -33,7 +33,7 @@ class ApiLoginController extends Controller
         //return json_encode(['token' => $refreshToken]);
         return $this->proxy('refresh_token', [
             'refresh_token' => $refreshToken
-        ]);
+        ], $request);
     }
 
     public function logout(){
@@ -89,7 +89,7 @@ class ApiLoginController extends Controller
     }
 
 
-    public function attemptLogin($email, $password)
+    public function attemptLogin($email, $password, $request)
     {
 
         $user = User::where('email', $email)->first();
@@ -98,13 +98,13 @@ class ApiLoginController extends Controller
             return $this->proxy('password', [
                 'username' => $email,
                 'password' => $password
-            ]);
+            ], $request);
         }
 
         return json_encode(['error' => 'There is no such user']);
     }
 
-    public function proxy($grantType, array $data = [])
+    public function proxy($grantType, array $data = [], $request)
     {
         $data = array_merge($data, [
             'client_id'     => env('PASSWORD_CLIENT_ID'),
@@ -112,10 +112,12 @@ class ApiLoginController extends Controller
             'grant_type'    => $grantType
         ]);
 
-        $http = new Client(/*['http_errors' => false]*/);
+        $user_data = $data;
+
+        $http = new Client(['http_errors' => false]);
 
         try {
-            $response = $http->request('POST', 'http://treasureradar.com/oauth/token', [
+            $response = $http->request('POST', url()->to('/').'/oauth/token', [
                 'form_params' => $data,
             ]);
 
@@ -133,6 +135,16 @@ class ApiLoginController extends Controller
                             false,
                             true // HttpOnly
                         );
+
+                        if($user = Auth::guard('api')->user()){
+                            $data->user_name = $user->name;
+                        }elseif(array_key_exists('username', $user_data)){
+                            if($user = User::where(['email' => $user_data['username']])->first()){
+                                $data->user_name = $user->name;
+                            }
+                        } else {
+                            $data->user_name = '';
+                        }
 
                         $response = response()->json($data);
                         $response->headers->setCookie($cookie);

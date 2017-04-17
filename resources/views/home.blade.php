@@ -10,6 +10,7 @@
 
                 <div class="panel-body">
                     <a href="{{ action('PointsController@index') }}">Points list</a>
+                    <a href="{{ action('UsersController@index') }}">Users list</a>
                 </div>
             </div>
         </div>
