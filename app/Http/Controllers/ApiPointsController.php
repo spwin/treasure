@@ -4,12 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Points;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ApiPointsController extends Controller
 {
     public function getPoints(Request $request){
         $lat = $request->get('lat');
         $lon = $request->get('lon');
+
+        if($user = Auth::guard('api')->user()){
+            $user->lat = $lat;
+            $user->lon = $lon;
+            $user->save();
+        }
 
         $points = Points::where(['status' => 0])->get();
         $data = array();

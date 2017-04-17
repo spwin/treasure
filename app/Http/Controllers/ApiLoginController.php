@@ -138,9 +138,11 @@ class ApiLoginController extends Controller
 
                         if($user = Auth::guard('api')->user()){
                             $data->user_name = $user->name;
+                            $this->updateUser($user, $user_data);
                         }elseif(array_key_exists('username', $user_data)){
                             if($user = User::where(['email' => $user_data['username']])->first()){
                                 $data->user_name = $user->name;
+                                $this->updateUser($user, $user_data);
                             }
                         } else {
                             $data->user_name = '';
@@ -160,5 +162,16 @@ class ApiLoginController extends Controller
         }
 
         return json_encode(['error' => 'no response']);
+    }
+
+    public function updateUser($user, $params){
+        $user->ip = request()->ip();
+        if(array_key_exists('lat', $params)){
+            $user->lat = $params['lat'];
+        }
+        if(array_key_exists('lon', $params)){
+            $user->lat = $params['lon'];
+        }
+        $user->save();
     }
 }
