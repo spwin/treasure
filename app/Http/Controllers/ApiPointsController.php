@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Auth;
 class ApiPointsController extends Controller
 {
     public function getPoints(Request $request){
-        $lat = $request->get('lat');
-        $lon = $request->get('lon');
+        $lat = $request->get('lat', 0);
+        $lon = $request->get('lon', 0);
 
         if($user = Auth::guard('api')->user()){
             if(!$user->getCoordinates){
