@@ -50,11 +50,13 @@ class ApiPointsController extends Controller
     }
 
     public function removePoint(Request $request){
+        $id = $request->get('id');
+        $point = Points::find($id);
         if($user = $request->user()){
-            $id = $request->get('id');
-            $point = Points::find($id);
             $point->user_id = $user->id;
             $point->save();
+        } else {
+            $point->delete();
         }
         return $this->getPoints($request);
     }
