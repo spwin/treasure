@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Coordinates;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use Illuminate\Http\Request;
@@ -166,11 +167,19 @@ class ApiLoginController extends Controller
 
     public function updateUser($user, $params){
         $user->ip = request()->ip();
-        if(array_key_exists('lat', $params)){
-            $user->lat = $params['lat'];
-        }
-        if(array_key_exists('lon', $params)){
+        if(array_key_exists('lon', $params) && array_key_exists('lat', $params)){
             $user->lat = $params['lon'];
+            if(!$user->getCoordinates){
+                $coordinates = new Coordinates();
+            } else {
+                $coordinates = $user->getCoordinates()->first();
+            }
+            $coordinates->fill([
+                'lat' => $params['lat'],
+                'lon' => $params['lon']
+            ]);
+            $coordinates->save();
+            $user->coordinates_id = $coordinates->id;
         }
         $user->save();
     }

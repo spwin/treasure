@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Coordinates;
 use App\Points;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,8 +14,17 @@ class ApiPointsController extends Controller
         $lon = $request->get('lon');
 
         if($user = Auth::guard('api')->user()){
-            $user->lat = $lat;
-            $user->lon = $lon;
+            if(!$user->getCoordinates){
+                $coordinates = new Coordinates();
+            } else {
+                $coordinates = $user->getCoordinates()->first();
+            }
+            $coordinates->fill([
+                'lat' => $lat,
+                'lon' => $lon
+            ]);
+            $coordinates->save();
+            $user->coordinates_id = $coordinates->id;
             $user->save();
         }
 
