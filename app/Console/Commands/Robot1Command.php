@@ -33,15 +33,16 @@ class Robot1Command extends Command
         //@ TODO: not all but only by min max lon lat
         $web = Towers::all();
 
-        $user_points = array(
+        $user_points = Robot1Queue::all();
+            /*array(
             ['lat' => 51.477478, 'lon' => 0.009591, 'user_id' => 1],
             ['lat' => 51.477355, 'lon' => 0.012505, 'user_id' => 1],
-        );
+        );*/
 
         $points = [];
         foreach($user_points as $point){
-            $center_lat = round($point['lat'], 3);
-            $center_lon = round($point['lon'], 3);
+            $center_lat = $point->lat;
+            $center_lon = $point->lon;
             $points[] = ['lat' => $center_lat-0.001, 'lon' => $center_lon-0.001, 'user_id' => $point['user_id']];
             $points[] = ['lat' => $center_lat, 'lon' => $center_lon-0.001, 'user_id' => $point['user_id']];
             $points[] = ['lat' => $center_lat+0.001, 'lon' => $center_lon-0.001, 'user_id' => $point['user_id']];

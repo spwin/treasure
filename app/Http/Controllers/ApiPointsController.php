@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Coordinates;
 use App\Points;
 use App\Resources;
+use App\Robot1Queue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,6 +14,18 @@ class ApiPointsController extends Controller
     public function getPoints(Request $request){
         $lat = $request->get('lat', 0);
         $lon = $request->get('lon', 0);
+
+        $center_lat = round($lat, 3);
+        $center_lon = round($lon, 3);
+        $point = Robot1Queue::where('lat', '=', $center_lat)->where('lon', '=', $center_lon)->first();
+        if(!$point && $user = $request->user()){
+            $point = new Robot1Queue();
+            $point->fill([
+                'lon' => $center_lon,
+                'lat' => $center_lat,
+                'user_id' => $user->id
+            ]);
+        }
 
         if($user = Auth::guard('api')->user()){
             $user->lat = $lat;
