@@ -69,7 +69,7 @@
     function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 15,
-            center: {lat: 51.477478, lng: 0.009591 }
+            center: {lat: {{ $user->lat }}, lng: {{ $user->lon }} }
         });
 
         @foreach($points as $point)

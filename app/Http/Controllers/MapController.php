@@ -59,6 +59,8 @@ class MapController extends Controller
             $points[] = new Point($u->lat, $u->lon, 'user', $u->status);
         }
 
+        $user = User::where(['id' => 2])->first();
+
         $configuration = Configuration::get();
 
         $towers = Towers::all();
@@ -67,7 +69,8 @@ class MapController extends Controller
             'configuration' => $configuration,
             'points' => $points,
             'robot1_queue' => $robot1_queue,
-            'towers' => $towers
+            'towers' => $towers,
+            'user' => $user
         ]);
     }
 
