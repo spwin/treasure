@@ -27,8 +27,8 @@ class ApiPointsController extends Controller
         foreach($resources as $resource){
             $data[] = [
                 'id' => $resource->id,
-                'lat' => $resource->getCoordinates->lat,
-                'lon' => $resource->getCoordinates->lon,
+                'lat' => $resource->lat,
+                'lon' => $resource->lon,
                 'type' => $resource->type,
                 'quantity' => $resource->type,
                 'name' => $resource->type,
