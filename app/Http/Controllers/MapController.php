@@ -52,11 +52,12 @@ class MapController extends Controller
         foreach($strangers as $s){
             $points[] = new Point($s->lat, $s->lon, 'stranger', 0);
         }
+        */
 
         $users = User::where(['status' => 0])->get();
         foreach($users as $u){
             $points[] = new Point($u->lat, $u->lon, 'user', $u->status);
-        }*/
+        }
 
         $configuration = Configuration::get();
 
