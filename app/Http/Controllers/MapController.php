@@ -9,7 +9,9 @@ use App\Libraries;
 use App\Manuscripts;
 use App\Point;
 use App\Resources;
+use App\Robot1Queue;
 use App\Strangers;
+use App\Towers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +20,8 @@ class MapController extends Controller
 {
     public function index(){
         $points = array();
+
+        $robot1_queue = Robot1Queue::all();
 
         $resources = Resources::where(['status' => 0])->get();
         foreach($resources as $r){
@@ -56,7 +60,14 @@ class MapController extends Controller
 
         $configuration = Configuration::get();
 
-        return view('map.index')->with(['configuration' => $configuration, 'points' => $points]);
+        $towers = Towers::all();
+
+        return view('map.index')->with([
+            'configuration' => $configuration,
+            'points' => $points,
+            'robot1_queue' => $robot1_queue,
+            'towers' => $towers
+        ]);
     }
 
     public function update(Request $request){

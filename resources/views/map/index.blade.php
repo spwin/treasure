@@ -22,8 +22,13 @@
                     </div>
 
                     <div class="panel-body">
-
-                        <div id="map" style="height: 800px;"></div>
+                        <p>Total towers: <strong>{{ count($towers) }}</strong></p>
+                        <ul>
+                        @foreach($robot1_queue as $element)
+                            <li>ID: {{ $element->id }} | LAT: {{ $element->lat }} | LON: {{ $element->lon }} | Date: {{ $element->created_at }}</li>
+                        @endforeach
+                        </ul>
+                        <div id="map" style="height: 400px;"></div>
                         {!! Form::open([
                             'method' => 'POST',
                             'action' => ['MapController@update'],
