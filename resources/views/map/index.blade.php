@@ -91,7 +91,7 @@
             });
             marker.setLabel(type.charAt(0).toUpperCase());
 
-            if(type.equals('user')){
+            if(type.localeCompare('user')){
                 users.push(marker);
             } else {
                 markers.push(marker);
