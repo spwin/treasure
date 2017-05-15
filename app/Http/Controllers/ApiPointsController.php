@@ -25,6 +25,7 @@ class ApiPointsController extends Controller
                 'lat' => $center_lat,
                 'user_id' => $user->id
             ]);
+            $point->save();
         }
 
         if($user = Auth::guard('api')->user()){
