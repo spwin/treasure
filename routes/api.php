@@ -18,7 +18,7 @@ Route::group(['prefix' => 'v1'], function() {
             return $request->user();
         });
 
-        Route::get('/points/remove', 'ApiPointsController@removePoint');
+        Route::get('/points/remove', 'ApiPointsController@gatheredResource');
 
         Route::get('/points/get', 'ApiPointsController@getPoints');
         Route::post('/logout', 'ApiLoginController@logout');

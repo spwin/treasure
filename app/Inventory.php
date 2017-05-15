@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Coordinates extends Model
+class Inventory extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,15 +12,14 @@ class Coordinates extends Model
      * @var array
      */
     protected $fillable = [
-        'lon', 'lat'
+        'user_id', 'item_id', 'worn', 'expires_at'
     ];
 
     public function getUser(){
-        return $this->hasOne('App\Users', 'coordinates_id', 'id');
+        return $this->hasOne('App/User', 'id', 'user_id');
     }
 
-    public function getPoint(){
-        return $this->hasOne('App\Points', 'coordinates_id', 'id');
+    public function getItem(){
+        return $this->hasOne('App/Items', 'id', 'item_id');
     }
 }
-

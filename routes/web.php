@@ -23,6 +23,9 @@ Route::get('/home', 'HomeController@index');
 Route::get('/test', 'HomeController@test');
 
 Route::group(['middleware' => ['auth']], function () {
+    Route::get('/map', 'MapController@index');
+    Route::post('/map/config-update', 'MapController@update');
+
     Route::get('/points', 'PointsController@index');
     Route::get('/points/add', 'PointsController@add');
     Route::post('/points/save', 'PointsController@save');

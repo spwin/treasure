@@ -25,25 +25,21 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Point found</th>
                             <th>Crystals</th>
                             <th>Email</th>
                             <th>IP</th>
                             <th>Latitude</th>
                             <th>Longitude</th>
-                            <th>Last activity</th>
                         </tr>
                     @foreach($users as $user)
                         <tr>
                             <td>{{ $user->id }}</td>
                             <td>{{ $user->name }}</td>
-                            <td>{{ $user->getFoundPoints()->count() }}</td>
-                            <td>{{ $user->crystals}}</td>
-                            <td>{{ $user->email}}</td>
+                            <td>{{ $user->crystals }}</td>
+                            <td>{{ $user->email }}</td>
                             <td>{{ $user->ip }}</td>
-                            <td>{{ $user->getCoordinates ? $user->getCoordinates->lat : '-'}}</td>
-                            <td>{{ $user->getCoordinates ? $user->getCoordinates->lon : '-'}}</td>
-                            <td>{{ $user->getCoordinates ? date($user->getCoordinates->updated_at) : '-'}}</td>
+                            <td>{{ $user->lat }}</td>
+                            <td>{{ $user->lon }}</td>
                         </tr>
                     @endforeach
                     </table>

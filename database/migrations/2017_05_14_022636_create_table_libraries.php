@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableRewards extends Migration
+class CreateTableLibraries extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateTableRewards extends Migration
      */
     public function up()
     {
-        Schema::create('rewards', function (Blueprint $table) {
+        Schema::create('libraries', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('type')->nullable();
-            $table->float('amount', 10, 2)->default(0);
-            $table->text('details')->nullable();
+            $table->integer('type');
+            $table->float('lon', 10, 7);
+            $table->float('lat', 10, 7);
+            $table->float('regeneration');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateTableRewards extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rewards');
+        Schema::dropIfExists('libraries');
     }
 }

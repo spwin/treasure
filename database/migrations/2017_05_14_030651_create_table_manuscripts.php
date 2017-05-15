@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTablePoints extends Migration
+class CreateTableManuscripts extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,17 @@ class CreateTablePoints extends Migration
      */
     public function up()
     {
-        Schema::create('points', function (Blueprint $table) {
+        Schema::create('manuscripts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('coordinates_id')->nullable()->unsigned();
-            $table->foreign('coordinates_id')->references('id')->on('coordinates')->onDelete('cascade');
-            $table->integer('status')->default(0);
             $table->integer('user_id')->nullable()->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('reward_id')->nullable()->unsigned();
-            $table->foreign('reward_id')->references('id')->on('rewards');
-            $table->boolean('paid')->default(0);
+            $table->integer('recipe_id')->nullable()->unsigned();
+            $table->foreign('recipe_id')->references('id')->on('recipes');
+            $table->date('found_date');
+            $table->integer('quantity');
+            $table->float('lon', 10, 7);
+            $table->float('lat', 10, 7);
+            $table->integer('status');
             $table->timestamps();
         });
     }
@@ -34,6 +35,6 @@ class CreateTablePoints extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('points');
+        Schema::dropIfExists('manuscripts');
     }
 }
