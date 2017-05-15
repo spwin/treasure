@@ -18,7 +18,7 @@ class ApiPointsController extends Controller
         $center_lat = round($lat, 3);
         $center_lon = round($lon, 3);
         $point = Robot1Queue::where('lat', '=', $center_lat)->where('lon', '=', $center_lon)->first();
-        if(!$point && $user = $request->user() && ($center_lat != 0 && $center_lon!=0)){
+        if(!$point && ($user = $request->user()) && ($center_lat != 0 && $center_lon != 0)){
             $point = new Robot1Queue();
             $point->fill([
                 'lon' => $center_lon,
