@@ -54,7 +54,7 @@ class MapController extends Controller
         }
         */
 
-        $users = User::where(['status' => 0])->get();
+        $users = User::where(['status' => 0])->whereNotNull('lat')->whereNotNull('lon')->get();
         foreach($users as $u){
             $points[] = new Point($u->lat, $u->lon, 'user', $u->status);
         }
