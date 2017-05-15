@@ -65,7 +65,6 @@
 <script>
     var map;
     var markers = [];
-    var users = [];
 
     function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -89,14 +88,9 @@
                 position: location,
                 map: map
             });
+
             marker.setLabel(type.charAt(0).toUpperCase());
-
-            if(type.localeCompare('user')){
-                users.push(marker);
-            } else {
-                markers.push(marker);
-            }
-
+            markers.push(marker);
         }
 
         var markerCluster = new MarkerClusterer(map, markers,
