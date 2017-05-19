@@ -44,7 +44,7 @@ class ApiPointsController extends Controller
                 'lat' => $resource->lat,
                 'lon' => $resource->lon,
                 'type' => $resource->type,
-                'quantity' => $resource->type,
+                'quantity' => $resource->quantity,
                 'name' => $resource->type,
                 'description' => $resource->type,
             ];
